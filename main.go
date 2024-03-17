@@ -1,69 +1,18 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"crud/internal/handler"
+	"github.com/labstack/echo/v4"
 )
 
-type accaunt struct {
-	id       int
-	login    string
-	password string
-	email    string
-}
-
 func main() {
-	dbCfgs := Postgres{
-		Host:     "localhost",
-		Name:     "postgres",
-		User:     "postgres",
-		Password: "12345678",
-	}
 
-	/// crud
-	/// c - create
-	/// r - read
-	/// u - update
-	/// d - delete
+	e := echo.New()
+	e.POST("/create/:id", handler.GetUser)
+	/// localhost:5555/create
 
-	connDB, err := InitDB(dbCfgs)
+	err := e.Start(":5555")
 	if err != nil {
-		log.Printf("error initializing to db: %v", err.Error())
-		return
+		panic(err)
 	}
-
-	//stmt := "INSERT INTO users(login, password, email) VALUES ('igor', '12345', 'chapligin@mail.ru') RETURNING login, password, email"
-	//_, err = connDB.Query(stmt)
-	//if err != nil {
-	//	log.Printf("error creating user in db: %v", err.Error())
-	//	return
-	//}
-
-	//stmt := "DELETE FROM users where id=1"
-	//_, err = connDB.Query(stmt)
-	//if err != nil {
-	//	log.Printf("error deleting user in db: %v", err.Error())
-	//	return
-
-	stmt := "SELECT * FROM users"
-	rows, err := connDB.Query(stmt)
-	if err != nil {
-		log.Printf("error selectting user in db: %v", err.Error())
-		return
-	}
-	date := []accaunt{}
-
-	for rows.Next() {
-		p := accaunt{}
-		err := rows.Scan(&p.id, &p.login, &p.password, &p.email)
-		if err != nil {
-			fmt.Println(err)
-			continue
-		}
-		date = append(date, p)
-	}
-	for _, p := range date {
-		fmt.Println(p.id, p.login, p.password, p.email)
-	}
-
 }
