@@ -19,7 +19,7 @@ var dbConfig *Postgres
 
 func InitDB(postgres Postgres) (*sql.DB, error) {
 	if dbConn == nil {
-		conn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", postgres.Host, "IGOR", postgres.Password, postgres.Name)
+		conn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", postgres.Host, postgres.Name, postgres.Password, postgres.Name)
 		d, err := sql.Open("postgres", conn)
 		if err != nil {
 			return nil, err
