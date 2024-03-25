@@ -77,3 +77,27 @@ func GetUserFromDB(userId string) []models.Account {
 
 	return data
 }
+
+func DropUserFromDB(userId string) error {
+	dbCfgs := Postgres{
+		Host:     "localhost",
+		Name:     "postgres",
+		User:     "postgres",
+		Password: "12345678",
+	}
+
+	connDB, err := InitDB(dbCfgs)
+	if err != nil {
+		log.Printf("error initializing to db: %v", err.Error())
+		return nil
+	}
+
+	stmt := "delete  FROM users WHERE id = $1"
+	_, err = connDB.Query(stmt, userId)
+	if err != nil {
+		log.Printf("error deleting user in db: %v", err.Error())
+		return err
+	}
+	return nil
+
+}

@@ -8,7 +8,8 @@ import (
 func main() {
 
 	e := echo.New()
-	e.POST("/create/:id", handler.GetUser)
+	e.GET("/get/:id", handler.GetUser)
+	e.DELETE("/delete/:id", handler.DropUser)
 	/// localhost:5555/create
 
 	err := e.Start(":5555")
