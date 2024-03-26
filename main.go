@@ -10,6 +10,7 @@ func main() {
 	e := echo.New()
 	e.GET("/get/:id", handler.GetUser)
 	e.DELETE("/delete/:id", handler.DropUser)
+	e.POST("/insert", handler.InsertUser)
 	/// localhost:5555/create
 
 	err := e.Start(":5555")

@@ -26,5 +26,17 @@ func DropUser(e echo.Context) error {
 	log.Printf("ERROR: %v", err)
 
 	return e.String(http.StatusOK, "success")
+}
+func InsertUser(e echo.Context) error {
+	login := e.QueryParam("login")
+	password := e.QueryParam("password")
+	email := e.QueryParam("email")
+	err := db.InsertUserIntoDB(login, password, email)
+	if err != nil {
+		fmt.Printf("ОШИБКА ДОБАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯ:%V", err)
+		log.Printf("ERROR: %v", err)
+
+	}
+	return e.String(http.StatusOK, "success")
 
 }
