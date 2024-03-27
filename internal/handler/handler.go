@@ -40,3 +40,17 @@ func InsertUser(e echo.Context) error {
 	return e.String(http.StatusOK, "success")
 
 }
+func UpdateUser(e echo.Context) error {
+	id := e.QueryParam("id")
+	login := e.QueryParam("login")
+	password := e.QueryParam("password")
+	email := e.QueryParam("email")
+	err := db.UpdateUserDB(id, login, password, email)
+	if err != nil {
+		fmt.Printf("ОШИБКА ОБНОВЛЕНИЯ ПОЛЬЗОВАТЕЛЯ:%V", err)
+		log.Printf("ERROR: %v", err)
+
+	}
+	return e.String(http.StatusOK, "success")
+
+}

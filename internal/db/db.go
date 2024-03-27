@@ -124,3 +124,26 @@ func InsertUserIntoDB(logindb, passworddb, emaildb string) error {
 	return nil
 
 }
+func UpdateUserDB(iddb, logindb, passworddb, emaildb string) error {
+	dbCfgs := Postgres{
+		Host:     "localhost",
+		Name:     "postgres",
+		User:     "postgres",
+		Password: "12345678",
+	}
+
+	connDB, err := InitDB(dbCfgs)
+	if err != nil {
+		log.Printf("error initializing to db: %v", err.Error())
+		return nil
+	}
+
+	stmt := "update users set login =$1, password=$2, email=$3 where id = $4"
+	_, err = connDB.Query(stmt, logindb, passworddb, emaildb, iddb)
+	if err != nil {
+		log.Printf("error updating user in db: %v", err.Error())
+		return err
+	}
+	return nil
+
+}
